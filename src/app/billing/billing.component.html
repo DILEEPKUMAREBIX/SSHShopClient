@@ -1,0 +1,42 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+<p-toast></p-toast>
+<div class="row">
+  <div class="col-75">
+    <div class="container">
+      <div class="row">
+        <div class="col-50">
+          <h3>BILLING</h3>
+          <img src="/assets/home_appliances.jpg" alt="Italian Trulli" style="height: 300px;width: 400px;">
+        </div>
+        <div class="col-50">
+          <h3>Details</h3>
+          <label for="cname">Item</label>
+          <!-- <p-autoComplete  [dropdown]="true" field="name" [suggestions]="filteredItems" (completeMethod)="search($event)"></p-autoComplete> -->
+
+          <ng-select2  [data]="items" [width]="500" [value]="selectedItem" (valueChanged)="handleChange($event)"
+            [placeholder]="'Please select a Item...'">
+          </ng-select2>
+          <label for="cost">Cost of the Item</label>
+          <input type="number" id="cost" name="cost" placeholder="Cost" [(ngModel)]="costOfItem">
+          <label for="quantity">Quantity</label>
+          <input type="number" id="quantity" placeholder="Quantity" [(ngModel)]="quantity">
+        </div>
+
+      </div>
+      <input type="button" (click)="addToCart()" [value]="submitBtnTxt" class="btn btn-primary">
+    </div>
+  </div>
+  <div class="col-25">
+    <div class="container">
+      <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i>
+          <b>{{cartItems.length}}</b></span></h4>
+      <div *ngFor="let item of cartItems">
+        <p><a (click)="editItem(item)">{{item.name}}</a> <span class="price">{{item.value}}</span></p>
+      </div>
+      <hr>
+      <p>Total <span class="price" style="color:black"><b>{{totalValue}}</b></span></p>
+    </div>
+    <input type="button" [disabled]="cartItems.length == 0" (click)="submit()" [value]="'Submit'" class="btn btn-primary">
+    <input type="button" (click)="reset()" [value]="'Reset'" class="btn btn-danger">
+  </div>
+</div>

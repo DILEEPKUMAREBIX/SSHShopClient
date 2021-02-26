@@ -1,0 +1,48 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
+<h3>TRANSACTIONS </h3>
+<form>
+  <div class="form-group form-inline">
+      Transaction search: <input class="form-control ml-2" type="text" [formControl]="filter"/>
+  </div>
+</form>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Transaction ID</th>
+    <th scope="col">Item</th>
+    <th scope="col">Price</th>
+    <th scope="col">Quantity</th>
+    <th scope="col">Total Transaction Price</th>
+    <th scope="col">Date</th>
+    <th scope="col">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let country of filterTransactions; index as i">
+    <th scope="row">{{ i + 1 }}</th>
+    <td><ngb-highlight [result]="country.transactioId | number" [term]="filter.value"></ngb-highlight></td>
+    <td><ngb-highlight [result]="getName(country.itemId)" [term]="filter.value"></ngb-highlight></td>
+    <td><ngb-highlight [result]="country.price | number" [term]="filter.value"></ngb-highlight></td>
+    <td><ngb-highlight [result]="country.quantity | number" [term]="filter.value"></ngb-highlight></td>
+    <td><ngb-highlight [result]="country.totalTransactionPrice | number" [term]="filter.value"></ngb-highlight></td>
+    <td><ngb-highlight [result]="country.createdAt | date: 'MMM dd YYYY'" [term]="filter.value"></ngb-highlight></td>
+    <td><button (click)="routeToInvoice(country.transactioId)" class="btn btn-primary">Invoice</button>
+        <button (click)="onDelete(country.transactioId)" class="btn btn-primary">Delete</button>
+        </td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- <div class="d-flex justify-content-between p-2">
+  <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshCountries()">
+  </ngb-pagination>
+
+  <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshCountries()">
+    <option [ngValue]="5">5 items per page</option>
+    <option [ngValue]="10">10 items per page</option>
+    <option [ngValue]="20">20 items per page</option>
+  </select>
+</div> -->

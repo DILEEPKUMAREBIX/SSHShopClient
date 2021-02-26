@@ -1,0 +1,144 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>
+
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+
+<div style="display: flex;" class="center"><input type="button" (click)="navigateToPage('transactions')"
+    [value]="'Transactions'" class="btn btn-primary hide-print">
+<input type="button" (click)="printPage()" [value]="'Print'" style="margin-left: 30px;"
+    class="btn btn-primary hide-print">
+<input type="button" (click)="navigateToPage('new-bill')" [value]="'New Bill'" style="margin-left: 30px;"
+    class="btn btn-primary hide-print">
+</div>
+<div class="container" style="font-size: 20px;">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="invoice-title">
+                <h2>Tax Invoice</h2>
+                (<h3 >GSTIN : 37AEIFS2469B1ZY</h3>)
+                <h3 class="pull-right">Bill # {{tranId}}</h3>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-6">
+                    <address>
+                        <strong>Address:</strong><br>
+                        SRI SHIRDI SAI HOME APPLIANCES<br>
+                        Opposite to RTC Complex<br>
+                        NarasannaPeta<br>
+                        Srikakulam<br>
+                        Andhra Pradesh - 532421<br>
+                        Phone No: <strong>8328079349, 9059804244</strong><br>
+                        Email: sshiridisaihomeappliances@gmail.com<br>
+                    </address>
+
+                    <!-- <address>
+                        <strong>Contact Details: </strong><br>
+                        Phone No: <strong>8328079349, 9059804244</strong><br>
+                        Email: sshiridisaihomeappliances@gmail.com<br>
+                    </address> -->
+                </div>
+                <div class="col-xs-6">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <address>
+                        <strong>Payment Method:</strong><br>
+                        CASH<br>
+                    </address>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <address>
+                        <strong>Bill Date:</strong><br>
+                        {{createdAt | date: 'MMM dd YYYY'}}<br><br>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="font-size: 25px;"><strong>Bill summary</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <td scope="col">#</td>
+                                    <td><strong>Item</strong></td>
+                                    <td class="text-center"><strong>Price</strong></td>
+                                    <td class="text-center"><strong>Quantity</strong></td>
+                                    <td class="text-center"><strong>Total</strong></td>
+                                    <td class="text-center"><strong>CGST(9%)</strong></td>
+                                    <td class="text-center"><strong>SGST(9%)</strong></td>
+                                    <td class="text-right"><strong>Taxable Value</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                <tr *ngFor="let item of tranItems; index as i">
+                                    <td scope="row">{{ i + 1 }}</td>
+                                    <td>{{getItemName(item.itemId)}}</td>
+                                    <td class="text-center">{{item.price}}</td>
+                                    <td class="text-center">{{item.quantity}}</td>
+                                    <td class="text-center">{{ item.price * item.quantity }}</td>
+                                    <td class="text-center">{{ item.gstAmount | number: '.0-0'}}</td>
+                                    <td class="text-center">{{ item.gstAmount  | number: '.0-0' }}</td>
+                                    <td class="text-right">{{ item.taxableValue  | number: '.0-0' }}</td>
+                                </tr>
+                                <tr style="padding-top: 10px;">
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line text-right" colspan="2"><strong>Total Taxable Value</strong></td>
+                                    <td class="thick-line text-right">{{totalTaxableValue | number: '.0-0'}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-right" colspan="2"><strong>GST Amount</strong></td>
+                                    <td class="no-line text-right" >{{totalGSGAmoount | number: '.0-0'}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-right" colspan="2"><strong>Total (Rupess)</strong></td>
+                                    <td class="no-line text-right" >{{totalTransactionPrice | number: '.0-0'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <button (click)="printPage()" class="hide-print">Print</button> -->
+<div style="display: flex;" class="center"><input type="button" (click)="navigateToPage('transactions')"
+        [value]="'Transactions'" class="btn btn-primary hide-print">
+    <input type="button" (click)="printPage()" [value]="'Print'" style="margin-left: 30px;"
+        class="btn btn-primary hide-print">
+    <input type="button" (click)="navigateToPage('new-bill')" [value]="'New Bill'" style="margin-left: 30px;"
+        class="btn btn-primary hide-print">
+</div>
